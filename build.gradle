@@ -1,0 +1,55 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {	
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:$springDependencyManagementPluginVersion"
+		classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:$springCloudContractDependenciesVersion"
+    }
+
+}
+
+
+plugins {
+    id "com.github.ben-manes.versions" version "0.20.0"
+}
+
+apply plugin: WaitForMySqlPlugin
+
+subprojects {
+
+    apply plugin: "java"
+    apply plugin: 'pmd'
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    group = "com.ftgo"
+
+    repositories {
+        eventuateMavenRepoUrl.split(',').each { repoUrl -> maven { url repoUrl } }
+
+        mavenCentral()
+        jcenter()
+
+        maven {
+            url 'https://repo.spring.io/libs-milestone'
+        }
+
+        maven {
+            url "${project.rootDir}/build/repo"
+        }
+
+    }
+
+}
+
+task buildContracts(type: GradleBuild) {
+  tasks = subprojects.collect { it.name }.findAll { it.endsWith("-contracts") }.collect { ":" + it + ":publish"}
+}
+
+task compileAll(type: GradleBuild) {
+  tasks = ["testClasses", "compileIntegrationTestJava", "compileComponentTestJava"]
+}

@@ -1,0 +1,56 @@
+/*
+ * Copyright 2020 Wuyi Chen.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.ftgo.apigateway.service.delivery;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import com.ftgo.apigateway.model.DeliveryInfo;
+
+import reactor.core.publisher.Mono;
+
+/**
+ * The proxy class of the delivery service.
+ * 
+ * @author  Wuyi Chen
+ * @date    05/05/2020
+ * @version 1.0
+ * @since   1.0
+ */
+@Service
+public class DeliveryServiceProxy {
+	private DeliveryDestinations deliveryDestinations;
+	private WebClient            client;
+
+	/**
+	 * Constructs a {@code DeliveryServiceProxy} object.
+	 * 
+	 * @param  deliveryDestinations
+	 *         The destination of the delivery service.
+	 *         
+	 * @param  client
+	 *         The HTTP client for performing HTTP requests 
+	 */
+	public DeliveryServiceProxy(DeliveryDestinations deliveryDestinations, WebClient client) {
+		this.deliveryDestinations = deliveryDestinations;
+		this.client                 = client;
+	}
+	
+	public Mono<DeliveryInfo> findDeliveryByOrderId(String orderId) {
+		// TODO
+		return Mono.error(new UnsupportedOperationException());
+	}
+}
